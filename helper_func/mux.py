@@ -101,8 +101,9 @@ async def hardmux_vid(vid_filename, sub_filename, msg):
     os.system(f"ffmpeg -i {input_file} fonts/out.ass")
     subs = pysubs2.load("fonts/out.ass", encoding="utf-8")
     for line in subs:
-        if not "color" in line.text:
+        if (not line.text.__contains__("color")) and (not line.text.__contains__("macvin")):
             line.text = line.text + "\\N{\\b1\\c&H0080ff&}t.me/dlmacvin_new{\\c}{\\b0}"
+        
         if "color" in line.text:
             line.text = line.text.split('color')[0] + "{\\b1\\c&H0080ff&}t.me/dlmacvin_new{\\c}{\\b0}"
     subs.save(sub)
