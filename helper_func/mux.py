@@ -1,4 +1,5 @@
 import pysubs2
+import os
 from config import Config
 import time
 import re
