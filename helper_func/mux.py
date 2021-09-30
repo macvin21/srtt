@@ -1,4 +1,4 @@
-
+import pysubs2
 from config import Config
 import time
 import re
@@ -95,10 +95,22 @@ async def softmux_vid(vid_filename, sub_filename, msg):
 
 
 async def hardmux_vid(vid_filename, sub_filename, msg):
+    input_file = Config.DOWNLOAD_DIR+'/'+sub_filename
+    sub = Config.DOWNLOAD_DIR+'subt.ass'
+    os.system(f"ffmpeg -i {input_file} fonts/out.ass")
+    subs = pysubs2.load("fonts/out.ass", encoding="utf-8")
+    for line in subs:
+        if not "color" in line.text:
+            line.text = line.text + "\\N{\\b1\\c&H0080ff&}t.me/dlmacvin_new{\\c}{\\b0}"
+        if "color" in line.text:
+            line.text = line.text.split('color')[0] + "{\\b1\\c&H0080ff&}t.me/dlmacvin_new{\\c}{\\b0}"
+    subs.save(sub)
+    #if sub_filename.endswith("ass"):
+    #elif sub_filename.endswith("srt"):
     
+        
     start = time.time()
     vid = Config.DOWNLOAD_DIR+'/'+vid_filename
-    sub = Config.DOWNLOAD_DIR+'/'+sub_filename
     
     out_file = '.'.join(vid_filename.split('.')[:-1])
     output = out_file+'1.mp4'
