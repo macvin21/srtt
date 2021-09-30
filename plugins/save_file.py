@@ -73,7 +73,7 @@ async def save_doc(client, message):
     ext = save_filename.split('.').pop()
     filename = str(round(start_time))+'.'+ext
 
-    if ext in ['ass']:
+    if ext in ['ass','srt']:
         os.rename(Config.DOWNLOAD_DIR+'/'+tg_filename,Config.DOWNLOAD_DIR+'/'+filename)
         db.put_sub(chat_id, filename)
         if db.check_video(chat_id):
@@ -86,23 +86,6 @@ async def save_doc(client, message):
             chat_id = chat_id,
             message_id = downloading.message_id
         )
-    elif ext in ['srt']:
-        os.rename(Config.DOWNLOAD_DIR+'/'+tg_filename,Config.DOWNLOAD_DIR+'/'+filename)
-        input_file = Config.DOWNLOAD_DIR+'/'+filename
-        filename = f"fonts/{message.document.file_name.replace('.srt', '')}.ass"
-        os.system(f"ffmpeg -i {input_file} fonts/out.ass")
-        subs = pysubs2.load("fonts/out.ass", encoding="utf-8")
-        for line in subs:
-            if not "color" in line.text:
-                line.text = line.text + "\\N{\\b1\\c&H0080ff&}t.me/dlmacvin_new{\\c}{\\b0}"
-
-            if "color" in line.text:
-                line.text = line.text.split('color')[0] + "{\\b1\\c&H0080ff&}t.me/dlmacvin_new{\\c}{\\b0}"
-            
-        subs.save(filename)
-        await message.reply_document(document=filename)
-        db.erase(chat_id)
-        return
 
     elif ext in ['mp4','mkv']:
         os.rename(Config.DOWNLOAD_DIR+'/'+tg_filename,Config.DOWNLOAD_DIR+'/'+filename)
@@ -137,7 +120,7 @@ async def save_video(client, message):
     downloadlocation = Config.DOWNLOAD_DIR+'/vid.mp4'
     try:
         await message.download(Config.DOWNLOAD_DIR+'/vid.mp4')
-        os.system(f"ffmpeg -i {downloadlocation} -vf scale=-2:720 {download_location}")
+        os.system(f"ffmpeg -i {downloadlocation} -vf scale=-1:720 {download_location}")
     except Exception as e:
         print(e)
     
