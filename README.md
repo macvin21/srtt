@@ -1,6 +1,6 @@
 # Sub-Muxer
 Telegram bot to mux subtile with video.
-## Deploy the bot on heroku
+## Deploy the bot on herok
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
