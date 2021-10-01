@@ -122,7 +122,7 @@ async def hardmux_vid(vid_filename, sub_filename, msg):
             'ffmpeg','-hide_banner',
             '-i',vid,
             '-vf',"subtitles="+sub+":fontsdir=fonts/font:force_style='Fontname=B Titr,Fontsize=28,PrimaryColour=&H0000FFFF,Shadow=0'", #,SecondaryColour=&H0300FFFF'", #,OutlineColour=&H00000000,BackColour=&H02000000,ScaleX=100,ScaleY=100,BorderStyle=1,Outline=1,Alignment=2,MarginL=10,MarginR=10,MarginV=10,Encoding=1'",
-            '-c:v','h264',
+            '-c:v','h265',
             '-map','0:v:0',
             '-map','0:a:0?',
             '-preset','veryslow',
