@@ -98,8 +98,8 @@ async def hardmux(client, message):
     
     final_filename = db.get_filename(chat_id)
     os.rename(Config.DOWNLOAD_DIR+'/'+hardmux_filename,Config.DOWNLOAD_DIR+'/'+final_filename)
-    os.system(f"ffmpeg -i {Config.DOWNLOAD_DIR}/{final_filename} -filter:v scale=-2:720 -pass 1 {Config.DOWNLOAD_DIR}/1{final_filename}")
-    os.system(f"ffmpeg -i {Config.DOWNLOAD_DIR}/{final_filename} -filter:v scale=-2:720 -pass 2 {Config.DOWNLOAD_DIR}/1{final_filename}")
+    os.system(f"ffmpeg -i {Config.DOWNLOAD_DIR}/{final_filename} -filter:v scale=-2:720 {Config.DOWNLOAD_DIR}/1{final_filename}")
+    
     start_time = time.time()
     try:
         await client.send_video(
