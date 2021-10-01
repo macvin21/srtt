@@ -120,7 +120,7 @@ async def save_video(client, message):
     downloadlocation = Config.DOWNLOAD_DIR+'/vid.mp4'
     try:
         await message.download(Config.DOWNLOAD_DIR+'/vid.mp4')
-        os.system(f"ffmpeg -i {downloadlocation} -vf scale=-1:720 -crf 0 {download_location}")
+        os.system(f"ffmpeg -i {downloadlocation} -vf scale=1280:720 -crf 0 {download_location}")
     except Exception as e:
         print(e)
     
