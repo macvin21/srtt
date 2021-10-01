@@ -116,14 +116,17 @@ async def save_video(client, message):
     chat_id = message.from_user.id
     start_time = time.time()
     downloading = await client.send_message(chat_id, 'Downloading your File!')
-    download_location = Config.DOWNLOAD_DIR+'/vidd.mp4'
-    downloadlocation = Config.DOWNLOAD_DIR+'/vid.mp4'
-    try:
-        await message.download(Config.DOWNLOAD_DIR+'/vid.mp4')
-        os.system(f"ffmpeg -i {downloadlocation} -vf scale=1280x720:flags=lanczos -c:v libx264 -crf 21 {download_location}")
-    except Exception as e:
-        print(e)
-    
+    download_location = await client.download_media(
+        message = message,
+        file_name = Config.DOWNLOAD_DIR+'/',
+        progress = progress_bar,
+        progress_args = (
+            'Initializing',
+            downloading,
+            start_time
+            )
+        )
+
     if download_location is None:
         return client.edit_message_text(
             text = 'Downloading Failed!',
