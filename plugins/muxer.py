@@ -98,7 +98,8 @@ async def hardmux(client, message):
     
     final_filename = db.get_filename(chat_id)
     os.rename(Config.DOWNLOAD_DIR+'/'+hardmux_filename,Config.DOWNLOAD_DIR+'/'+final_filename)
-    
+    os.system(f"ffmpeg -i {Config.DOWNLOAD_DIR}/{final_filename} -vf scale=-2:720 {Config.DOWNLOAD_DIR}/1{final_filename}")
+
     start_time = time.time()
     try:
         await client.send_video(
@@ -109,7 +110,7 @@ async def hardmux(client, message):
                     sent_msg,
                     start_time
                     ), 
-                video = f"{Config.DOWNLOAD_DIR}/{final_filename}",
+                video = f"{Config.DOWNLOAD_DIR}/1{final_filename}",
                 caption = final_filename
                 )
         text = 'File Successfully Uploaded!\nTotal Time taken : {} seconds'.format(round(time.time()-start_time))
@@ -117,11 +118,14 @@ async def hardmux(client, message):
     except Exception as e:
         print(e)
         await client.send_message(chat_id, 'An error occured while uploading the file!\nCheck logs for details of the error!')
-    
-    path = Config.DOWNLOAD_DIR+'/'
-    os.remove(path+og_sub_filename)
-    os.remove(path+og_vid_filename)
+    try:
+        os.remove(f"{Config.DOWNLOAD_DIR}/1{final_filename}")
+    except:
+        pass
     try :
+        path = Config.DOWNLOAD_DIR+'/'
+        os.remove(path+og_sub_filename)
+        os.remove(path+og_vid_filename)
         os.remove(path+final_filename)
     except :
         pass
